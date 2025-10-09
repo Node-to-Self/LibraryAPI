@@ -1,6 +1,20 @@
 import Fastify from 'fastify';
+
+import formbody from '@fastify/formbody';
+await app.register(formbody);
+
 const app = Fastify();
 const PORT = 3000;
+
+app.get("/", async (_request, reply) => {
+    reply.send({ message: "ok" });
+});
+
+
+app.setNotFoundHandler((request, reply) => {
+    const { message, statusCode } = request.error || {};
+    reply.status(statusCode || 500).send({ message });
+});
 
 try {
     await app.listen({ port: PORT });
