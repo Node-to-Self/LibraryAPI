@@ -10,3 +10,14 @@ async function booksRouter(fastify, _opts) {
         }
     });
 }
+
+fastify.post("/", async (request, reply) => {
+    const { title, author } = request.body;
+    try {
+        const book = { title, author };
+        reply.send(book);
+    } catch (e) {
+        console.error("Error occurred:", e.message);
+        reply.send(e);
+    }
+});
